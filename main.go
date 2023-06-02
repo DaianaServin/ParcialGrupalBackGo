@@ -11,8 +11,16 @@ import (
 // )
 
 func main() {
-	// total, err := tickets.GetTotalTickets("Brazil")
-	value, err := tickets.GetTotalTickets("Indonesia")
+	totalByCountry, err := tickets.GetTotalTickets("Indonesia")
+	if err != nil {
+		fmt.Println("Errorrrr")
+	} else {
+		fmt.Println(totalByCountry)
+	}
+
+	total, err := tickets.GetTotalTickets("Todos")
+	value, err := tickets.AverageDestination("Brazil", total)
+
 	if err != nil {
 		fmt.Println("Errorrrr")
 	} else {
