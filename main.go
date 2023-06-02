@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/DaianaServin/ParcialGrupalBackGo/internal/tickets"
+	"github.com/bootcamp-go/desafio-go-bases"
 )
 
 func main() {
