@@ -12,7 +12,7 @@ import (
 
 func main() {
 	// total, err := tickets.GetTotalTickets("Brazil")
-	value, err := tickets.GetTotalTickets("something")
+	value, err := tickets.GetTotalTickets("Indonesia")
 	if err != nil {
 		fmt.Println("Errorrrr")
 	} else {

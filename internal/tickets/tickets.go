@@ -10,16 +10,17 @@ import (
 type Ticket struct {
 	Id        string
 	Nombre    string
+	email     string
 	Pais      string
 	HoraVuelo string
 	precio    string
 }
 
-func GetDataFromFile() []Ticket {
+func GetDataFromFile() ([]Ticket, error) {
 	currentDir, err := os.Getwd()
 	if err != nil {
 		fmt.Println("Error getting current directory:", err)
-		return nil
+		return nil, err
 	}
 
 	filePath := filepath.Join(currentDir, "tickets.csv")
@@ -28,7 +29,7 @@ func GetDataFromFile() []Ticket {
 
 	if err != nil {
 		fmt.Println("Error opening file:", err)
-		return nil
+		return nil, err
 	}
 	defer file.Close()
 
@@ -36,7 +37,7 @@ func GetDataFromFile() []Ticket {
 	records, err := reader.ReadAll()
 	if err != nil {
 		fmt.Println("Error reading CSV", err)
-		return nil
+		return nil, err
 	}
 
 	var tickets []Ticket
@@ -48,20 +49,26 @@ func GetDataFromFile() []Ticket {
 			record[2],
 			record[3],
 			record[4],
+			record[5],
 		}
 
 		tickets = append(tickets, ticket)
 	}
-	return tickets
+	return tickets, nil
 }
 
 // ejemplo 1
 func GetTotalTickets(destination string) (int, error) {
 	var tickets []Ticket
-	tickets = GetDataFromFile()
+	tickets, err := GetDataFromFile()
+	if tickets == nil {
+		return 0, err
+	}
 	var counter int
-	for i, _ := range tickets {
-		counter = i + 1
+	for _, ticket := range tickets {
+		if ticket.Pais == destination {
+			counter = counter + 1
+		}
 	}
 	return counter, nil
 }
