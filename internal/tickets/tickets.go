@@ -57,17 +57,8 @@ func GetDataFromFile() ([]Ticket, error) {
 	return tickets, nil
 }
 
-func getPartOfDate() string {
-	return ""
-}
-
 // ejemplo 1
-func GetTotalTickets(destination string) (int, error) {
-	var tickets []Ticket
-	tickets, err := GetDataFromFile()
-	if tickets == nil {
-		return 0, err
-	}
+func GetTotalTickets(destination string, tickets []Ticket) (int, error) {
 	var counter int
 	for _, ticket := range tickets {
 		if ticket.Pais == destination || destination == "Todos" {
@@ -83,8 +74,8 @@ func GetMornings(time string) (int, error) {
 }
 
 // ejemplo 3
-func AverageDestination(destination string, total int) (float64, error) {
-	ticketsByDest, _ := GetTotalTickets(destination)
+func AverageDestination(destination string, total int, data []Ticket) (float64, error) {
+	ticketsByDest, _ := GetTotalTickets(destination, data)
 	var averageDestination float64 = float64(ticketsByDest) * 100 / float64(total)
 	return averageDestination, nil
 }
