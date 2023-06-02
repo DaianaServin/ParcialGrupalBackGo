@@ -1,9 +1,11 @@
 package main
 
 import (
-	"github.com/bootcamp-go/desafio-go-bases/internal/tickets"
+	"github.com/DaianaServin/ParcialGrupalBackGo/internal/tickets"
 )
 
 func main() {
 	total, err := tickets.GetTotalTickets("Brazil")
 }
+
+
