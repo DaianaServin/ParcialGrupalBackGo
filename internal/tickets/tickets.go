@@ -68,6 +68,18 @@ func GetTotalTickets(destination string) (int, error) {
 
 // ejemplo 2
 func GetMornings(time string) (int, error) {
+	if time >= "0:00" || time <= "6:00"{
+		fmt.Printf("Madrugada")
+	}else if time >= "7:00" || time <= "12:00"{
+		fmt.Printf("Mañana")
+	}else if time >= "13:00" || time <= "19:00" {
+		fmt.Printf("Tarde")
+	}else if time >= "20:00" || time <= "23:00"{
+		fmt.Printf("Noche")
+	}else{
+		
+	}
+
 	return 1, nil
 }
 
