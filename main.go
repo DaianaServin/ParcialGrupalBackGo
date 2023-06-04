@@ -3,7 +3,10 @@ package main
 import (
 	"fmt"
 
+	"github.com/gobwas/glob/util/strings"
 	"main.go/internal/tickets"
+
+	"time"
 )
 
 // import (
@@ -19,6 +22,15 @@ func main() {
 		return
 	}
 
+	go func(p string) {
+		totalByCountry, err := tickets.GetTotalTickets("Indonesia", data)
+	if err != nil {
+		fmt.Println("Error en el calculo, intentelo de nuevo")
+	} else {
+		fmt.Println(totalByCountry)
+	}
+	}("Indonesia")
+
 	totalByCountry, err := tickets.GetTotalTickets("Indonesia", data)
 	if err != nil {
 		fmt.Println("Error en el calculo, intentelo de nuevo")
@@ -26,12 +38,31 @@ func main() {
 		fmt.Println(totalByCountry)
 	}
 
-	total, err := tickets.GetTotalTickets("Todos", data)
-	value, err := tickets.AverageDestination("Brazil", total, data)
+	go func(p string) {
+		total, err := tickets.GetTotalTickets("Todos", data)
+		
+	}("Todos")
+
+	go func (p string)  {
+		valueHour, err := tickets.GetMornings("6:00", data)
+		if err != nil {
+			fmt.Println("Error, intentelo de nuevo")
+		} else {
+			fmt.Println(valueHour)
+		}
+		fmt.Printf("El horario del vuelo es por la %d",data)
+	} ("6:00")
+	
+
+	go func(p string) {
+		value, err := tickets.AverageDestination("Brazil", total, data)
 	if err != nil {
 		fmt.Println("Error en el calculo, intentelo de nuevo")
 	} else {
 		fmt.Println(value)
 	}
+	}("Brazil", total)
+
+
 
 }
