@@ -2,11 +2,9 @@ package main
 
 import (
 	"fmt"
-
-	"github.com/gobwas/glob/util/strings"
-	"main.go/internal/tickets"
-
 	"time"
+
+	"main.go/internal/tickets"
 )
 
 // import (
@@ -16,53 +14,59 @@ import (
 func main() {
 
 	data, err := tickets.GetDataFromFile()
-
 	if err != nil {
 		fmt.Println("Error al traer la data")
 		return
 	}
 
 	go func(p string) {
-		totalByCountry, err := tickets.GetTotalTickets("Indonesia", data)
+		totalByCountry, err := tickets.GetTotalTickets(p, data)
 	if err != nil {
 		fmt.Println("Error en el calculo, intentelo de nuevo")
 	} else {
-		fmt.Println(totalByCountry)
+		fmt.Printf("El total para el pais %s es %d \n", p, totalByCountry)
 	}
 	}("Indonesia")
-
-	totalByCountry, err := tickets.GetTotalTickets("Indonesia", data)
+	time.Sleep(1 *time.Second)
+	/* totalByCountry, err := tickets.GetTotalTickets("Indonesia", data)
 	if err != nil {
 		fmt.Println("Error en el calculo, intentelo de nuevo")
 	} else {
 		fmt.Println(totalByCountry)
-	}
+	} */
+
+	go func(p string) {
+		total, err := tickets.GetTotalTickets(p, data)
+		if err != nil{
+			fmt.Println(err)
+		}
+		fmt.Printf("El total es %d \n", total)
+		
+	}("Todos")
+	time.Sleep(1 *time.Second)
+
+	go func (p string)  {
+		valueHour, err := tickets.GetMornings(p, data)
+		if err != nil {
+			fmt.Println("Error, intentelo de nuevo")
+		} 
+		fmt.Println("La cantidad de pasajeros es de : ", valueHour)
+	} ("6:00")
+	time.Sleep(1 *time.Second)
 
 	go func(p string) {
 		total, err := tickets.GetTotalTickets("Todos", data)
-		
-	}("Todos")
-
-	go func (p string)  {
-		valueHour, err := tickets.GetMornings("6:00", data)
-		if err != nil {
-			fmt.Println("Error, intentelo de nuevo")
-		} else {
-			fmt.Println(valueHour)
+		if err != nil{
+			fmt.Println(err)
 		}
-		fmt.Printf("El horario del vuelo es por la %d",data)
-	} ("6:00")
-	
 
-	go func(p string) {
-		value, err := tickets.AverageDestination("Brazil", total, data)
-	if err != nil {
-		fmt.Println("Error en el calculo, intentelo de nuevo")
-	} else {
-		fmt.Println(value)
-	}
-	}("Brazil", total)
-
-
+		value, err := tickets.AverageDestination(p, total, data)
+		if err != nil {
+			fmt.Println("Error en el calculo, intentelo de nuevo")
+		} else {
+			fmt.Printf("El porcentaje para el %s es %.2f ", p, value)
+		}
+	}("Brazil")
+	time.Sleep(1 *time.Second)
 
 }

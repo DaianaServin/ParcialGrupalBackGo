@@ -2,6 +2,7 @@ package tickets
 
 import (
 	"encoding/csv"
+	"errors"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -70,17 +71,27 @@ func GetTotalTickets(destination string, tickets []Ticket) (int, error) {
 
 // ejemplo 2
 func GetMornings(time string, tickets []Ticket) (int, error) {
-	if time >= "0:00" || time <= "6:00"{
-		fmt.Printf("Madrugada")
-	}else if time >= "7:00" || time <= "12:00"{
-		fmt.Printf("Mañana")
-	}else if time >= "13:00" || time <= "19:00" {
-		fmt.Printf("Tarde")
-	}else if time >= "20:00" || time <= "23:00"{
-		fmt.Printf("Noche")
-	}
+	var arrayMadrugrada []Ticket
+	var arrayManiana []Ticket
+	var arrayTarde []Ticket
+	var arrayNoche []Ticket
 
-	return 1, nil
+	for _, v := range tickets{
+		if time >= "0:00" && time <= "6:00"{
+			arrayMadrugrada = append(arrayMadrugrada, v)
+			return len(arrayMadrugrada),nil
+		}else if time >= "7:00" && time <= "12:00"{
+			arrayManiana = append(arrayManiana, v)
+			return len(arrayManiana),nil
+		}else if time >= "13:00" &&time <= "19:00" {
+			arrayTarde = append(arrayTarde, v)
+			return len(arrayTarde),nil
+		}else if time >= "20:00" && time <= "23:00"{
+			arrayNoche = append(arrayNoche, v)
+			return len(arrayNoche),nil
+		}
+	}
+	return 0, errors.New("Horario invalido")
 }
 
 // ejemplo 3
